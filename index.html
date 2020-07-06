@@ -1,0 +1,112 @@
+<!--
+ * @Description: 
+ * @Author: Zhang Hao
+ * @Date: 2020-07-06 13:57:35
+ * @LastEditors: Zhang Hao
+ * @LastEditTime: 2020-07-06 16:04:22
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>抖音无水印下载解析</title>
+    <meta name="keywords" content="抖音,抖音无水印视频下载,抖音无水印,抖音下载,抖音视频下载,抖音无水印解析">
+    <meta name="Description " content="简单、便捷、功能强大的抖音无水印视频下载工具">
+    <meta name="author" content="mokevip">
+    <link rel="stylesheet" href="css/layui.css">
+    <style>
+        body {
+            /*background-size: 100% 100%;*/
+            background-image: url("images/bg.png");
+        }
+        
+        input[type=file] {
+            display: none;
+        }
+        
+        button {
+            position: relative;
+        }
+        
+        .layui-row div,
+        .layui-row button,
+        #by,
+        body {
+            margin-top: 10px;
+        }
+        
+        #result {
+            display: none;
+        }
+        
+        .layui-btn {
+            padding: 0;
+        }
+        
+        @media only screen and (min-width: 700px) {
+            input[type=text] {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content layui-container">
+        <div class="layui-row">
+            <h1 align="center">抖音无水印下载解析</h1>
+            <p id="by" class="layui-col-md8 layui-col-md-offset2 layui-col-xs12">Copyright © 2020 <a href="http://blog.mokevip.top">mokevip的个人博客</a></p>
+        </div>
+        <hr>
+        <div class="layui-row">
+            <div class="layui-col-md8 layui-col-md-offset2 layui-col-xs12">
+                <div class="layui-col-md12 layui-col-xs12">
+                    <input type="text" placeholder="输入需要生生成的二维码内容" id="url" class="AL layui-input url-input">
+                </div>
+
+                <button onclick="urlDecode(document.getElementById('url').value)" class="btn layui-btn layui-col-md12 layui-col-xs12">开始生成链接二维码</button>
+
+            </div>
+        </div>
+        <div class="layui-row">
+            <div id="result" class="layui-col-md8 layui-col-md-offset2 layui-col-xs12">
+                <div class="layui-col-md9 layui-col-xs12">
+                    <input type="text" placeholder="输入需要生生成的二维码内容" id="resultText" class="AL layui-input url-input">
+                </div>
+                <button class="btn layui-btn layui-btn-normal layui-col-md3 layui-col-xs12" id="copy">点击复制视频下载地址</button>
+            </div>
+        </div>
+
+
+
+        <!--                    js代码部分                   -->
+        <script src="layui.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script>
+            layui.use(['layer', 'form'], function() {
+                layer = layui.layer;
+            });
+
+            function urlDecode(url) {
+                $.ajax({
+                    url: "./api.php?url=" + url,
+                    success: function(res) {
+                        $("#result").show();
+                        $("#resultText").val(res)
+                        layer.msg("生成成功！");
+                        $("#copy").on("click", function() {
+                            $("#resultText").select();
+                            document.execCommand('copy');
+                            layer.msg("复制成功！");
+                        })
+                    }
+                })
+            }
+        </script>
+</body>
+
+</html>
