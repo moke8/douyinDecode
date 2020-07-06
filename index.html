@@ -3,7 +3,7 @@
  * @Author: Zhang Hao
  * @Date: 2020-07-06 13:57:35
  * @LastEditors: Zhang Hao
- * @LastEditTime: 2020-07-06 16:04:22
+ * @LastEditTime: 2020-07-06 16:19:45
 -->
 <!doctype html>
 <html lang="en">
@@ -65,17 +65,17 @@
         <div class="layui-row">
             <div class="layui-col-md8 layui-col-md-offset2 layui-col-xs12">
                 <div class="layui-col-md12 layui-col-xs12">
-                    <input type="text" placeholder="输入需要生生成的二维码内容" id="url" class="AL layui-input url-input">
+                    <input type="text" placeholder="请粘贴抖音分享链接地址" id="url" class="AL layui-input url-input">
                 </div>
 
-                <button onclick="urlDecode(document.getElementById('url').value)" class="btn layui-btn layui-col-md12 layui-col-xs12">开始生成链接二维码</button>
+                <button onclick="urlDecode(document.getElementById('url').value)" class="btn layui-btn layui-col-md12 layui-col-xs12">解析下载地址</button>
 
             </div>
         </div>
         <div class="layui-row">
             <div id="result" class="layui-col-md8 layui-col-md-offset2 layui-col-xs12">
                 <div class="layui-col-md9 layui-col-xs12">
-                    <input type="text" placeholder="输入需要生生成的二维码内容" id="resultText" class="AL layui-input url-input">
+                    <input type="text" placeholder="" id="resultText" class="AL layui-input url-input">
                 </div>
                 <button class="btn layui-btn layui-btn-normal layui-col-md3 layui-col-xs12" id="copy">点击复制视频下载地址</button>
             </div>
