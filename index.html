@@ -1,9 +1,9 @@
-<!--
+﻿<!--
  * @Description: 
  * @Author: Zhang Hao
  * @Date: 2020-07-06 13:57:35
  * @LastEditors: Zhang Hao
- * @LastEditTime: 2020-07-06 16:19:45
+ * @LastEditTime: 2020-08-06 22:03:49
 -->
 <!doctype html>
 <html lang="en">
@@ -18,6 +18,7 @@
     <meta name="Description " content="简单、便捷、功能强大的抖音无水印视频下载工具">
     <meta name="author" content="mokevip">
     <link rel="stylesheet" href="css/layui.css">
+    <link rel="manifest" href="manifest.json" />
     <style>
         body {
             /*background-size: 100% 100%;*/
@@ -52,6 +53,10 @@
                 text-align: center;
             }
         }
+        .layui-layer-shade {
+		    background: rgba(0,0,0,0.4)!important;
+		    opacity: 1 !important;
+		}
     </style>
 </head>
 
@@ -86,24 +91,65 @@
         <!--                    js代码部分                   -->
         <script src="layui.js"></script>
         <script src="js/jquery.min.js"></script>
+        
+        <script>
+  if (navigator.serviceWorker != null) {
+    navigator.serviceWorker.register('sw.js')
+    .then(function(registration) {
+      console.log('Registered events at scope: ', registration.scope);
+    });
+  }
+        	var cacheStorageKey = 'minimal-pwa-1'
+			var cacheList = [
+			  './layui.js',
+			  './js/jquery.min.js',
+			  "./index.html",
+			  "./css/layui.css",
+			  "icon.png"
+			]
+			
+			self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(cacheStorageKey)
+    .then(cache => cache.addAll(cacheList))
+    .then(() => self.skipWaiting())
+  )
+})
+        </script>
         <script>
             layui.use(['layer', 'form'], function() {
                 layer = layui.layer;
             });
 
+            document.getElementById('url').addEventListener("input", function(e) {
+                var val = e.target.value;
+                if (/复制此链接/.test(val)) {
+                    val = val.match(/https:\/\/.+?\/.+?\//)
+                    e.target.value = val
+                }
+            })
+
             function urlDecode(url) {
                 $.ajax({
                     url: "./api.php?url=" + url,
                     success: function(res) {
+                    	layer.closeAll();
                         $("#result").show();
                         $("#resultText").val(res)
-                        layer.msg("生成成功！");
+                        	layer.msg("生成成功！");
                         $("#copy").on("click", function() {
                             $("#resultText").select();
                             document.execCommand('copy');
                             layer.msg("复制成功！");
                         })
+                    },
+                    beforeSend:function(){
+                    	layer.load(1);
+                    },
+                    complate:function(){
+                    	layer.closeAll();
                     }
+                    
                 })
             }
         </script>
